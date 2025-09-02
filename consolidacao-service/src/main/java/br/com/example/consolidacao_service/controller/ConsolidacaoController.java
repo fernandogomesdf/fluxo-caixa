@@ -67,6 +67,22 @@ public class ConsolidacaoController {
     }
     
     /**
+     * Endpoint para obter consolidações agrupadas por data dos lançamentos
+     */
+    @GetMapping("/historico-por-data")
+    public ResponseEntity<List<Object>> obterConsolidacoesPorDataLancamento() {
+        logger.info("Obtendo consolidações agrupadas por data dos lançamentos");
+        
+        try {
+            List<Object> consolidacoesPorData = consolidacaoService.obterConsolidacoesPorDataLancamento();
+            return ResponseEntity.ok(consolidacoesPorData);
+        } catch (Exception e) {
+            logger.error("Erro ao obter consolidações por data", e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    
+    /**
      * Health check
      */
     @GetMapping("/health")

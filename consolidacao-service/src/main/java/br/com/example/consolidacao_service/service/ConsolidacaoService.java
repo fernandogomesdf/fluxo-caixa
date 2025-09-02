@@ -19,6 +19,10 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Service
 public class ConsolidacaoService {
@@ -154,5 +158,78 @@ public class ConsolidacaoService {
      */
     public List<Consolidacao> listarConsolidacoes() {
         return consolidacaoRepository.findAll();
+    }
+    
+    /**
+     * Obtém consolidações agrupadas por data dos lançamentos
+     */
+    public List<Object> obterConsolidacoesPorDataLancamento() {
+        try {
+            // 1. Buscar todos os lançamentos
+            List<LancamentoDto> lancamentos = buscarLancamentos();
+            
+            // 2. Agrupar por data (considerando apenas o dia, não hora/minuto)
+            Map<String, List<LancamentoDto>> lancamentosPorData = lancamentos.stream()
+                .collect(Collectors.groupingBy(this::extrairDataDoLancamento));
+            
+            // 3. Criar lista de consolidações por data
+            List<Object> consolidacoesPorData = new ArrayList<>();
+            
+            for (Map.Entry<String, List<LancamentoDto>> entry : lancamentosPorData.entrySet()) {
+                String data = entry.getKey();
+                List<LancamentoDto> lancamentosData = entry.getValue();
+                
+                // Calcular saldo do dia
+                double saldoDia = calcularSaldoTotal(lancamentosData);
+                
+                // Criar objeto de resposta
+                Map<String, Object> consolidacaoDia = new HashMap<>();
+                consolidacaoDia.put("dataLancamento", data);
+                consolidacaoDia.put("saldoTotal", saldoDia);
+                consolidacaoDia.put("quantidadeLancamentos", lancamentosData.size());
+                consolidacaoDia.put("tempoProcessamento", 0L); // Não aplicável para agrupamento por data
+                
+                consolidacoesPorData.add(consolidacaoDia);
+            }
+            
+            // 4. Ordenar por data (mais recente primeiro)
+            consolidacoesPorData.sort((a, b) -> {
+                @SuppressWarnings("unchecked")
+                String dataA = (String) ((Map<String, Object>) a).get("dataLancamento");
+                @SuppressWarnings("unchecked")
+                String dataB = (String) ((Map<String, Object>) b).get("dataLancamento");
+                return dataB.compareTo(dataA);
+            });
+            
+            return consolidacoesPorData;
+            
+        } catch (Exception e) {
+            logger.error("Erro ao agrupar consolidações por data", e);
+            throw new RuntimeException("Erro ao processar consolidações por data: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Extrai a data (apenas o dia) de um lançamento
+     */
+    private String extrairDataDoLancamento(LancamentoDto lancamento) {
+        try {
+            Object dataObj = lancamento.getDataLancamento();
+            if (dataObj instanceof List) {
+                List<?> dataArray = (List<?>) dataObj;
+                if (dataArray.size() >= 3) {
+                    int ano = ((Number) dataArray.get(0)).intValue();
+                    int mes = ((Number) dataArray.get(1)).intValue();
+                    int dia = ((Number) dataArray.get(2)).intValue();
+                    
+                    return String.format("%04d-%02d-%02d", ano, mes, dia);
+                }
+            }
+            // Fallback para formato string ou data atual
+            return LocalDateTime.now().toLocalDate().toString();
+        } catch (Exception e) {
+            logger.warn("Erro ao extrair data do lançamento, usando data atual", e);
+            return LocalDateTime.now().toLocalDate().toString();
+        }
     }
 }

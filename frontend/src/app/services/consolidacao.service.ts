@@ -31,4 +31,11 @@ export class ConsolidacaoService {
   listarConsolidacoes(): Observable<UltimaConsolidacao[]> {
     return this.http.get<UltimaConsolidacao[]>(`${this.API_URL}/historico`);
   }
+
+  /**
+   * Lista consolidações agrupadas por data dos lançamentos
+   */
+  listarConsolidacoesPorData(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/historico-por-data`);
+  }
 }

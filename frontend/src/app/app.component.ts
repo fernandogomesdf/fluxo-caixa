@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LancamentoFormComponent } from './components/lancamento-form/lancamento-form.component';
-import { ConsolidacaoComponent } from './components/consolidacao/consolidacao.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +11,6 @@ import { MatTabsModule } from '@angular/material/tabs';
   standalone: true,
   imports: [
     LancamentoFormComponent,
-    ConsolidacaoComponent,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -29,19 +27,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     </mat-toolbar>
 
     <div class="app-container">
-      <mat-tab-group class="tab-group" animationDuration="300ms">
-        <mat-tab label="Lançamentos" icon="receipt">
-          <div class="tab-content">
-            <app-lancamento-form></app-lancamento-form>
-          </div>
-        </mat-tab>
-        
-        <mat-tab label="Consolidação" icon="analytics">
-          <div class="tab-content">
-            <app-consolidacao></app-consolidacao>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
+      <app-lancamento-form></app-lancamento-form>
     </div>
   `,
   styles: [`
