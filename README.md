@@ -13,7 +13,6 @@ O DAS contém a documentação completa da arquitetura do sistema, incluindo dia
 ### Microsserviços (Containerizados)
 - **Lançamento Service** (Porta 8081): Gerencia lançamentos financeiros
 - **Consolidação Service** (Porta 8082): Consolida dados financeiros
-- **Notificação Service** (Porta 8083): Envia notificações
 
 ### Frontend (Containerizado)
 - **Angular App** (Porta 4200): Interface de usuário com Nginx
