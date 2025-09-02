@@ -2,6 +2,12 @@
 
 Sistema de controle de fluxo de caixa baseado em arquitetura de microsserviços com monitoramento e mensageria.
 
+## Documentação Técnica
+
+**DAS (Documento de Arquitetura de Software):** [DAS_Fluxo_Caixa.docx](./DAS_Fluxo_Caixa.docx)
+
+O DAS contém a documentação completa da arquitetura do sistema, incluindo diagramas, especificações técnicas e decisões de design.
+
 ## Arquitetura
 
 ### Microsserviços (Containerizados)
@@ -134,9 +140,6 @@ docker-compose logs -f consolidacao-service
 
 # Reconstruir apenas um serviço
 docker-compose up --build lancamento-service
-
-# Escalar um serviço (múltiplas instâncias)
-docker-compose up --scale lancamento-service=2
 
 # Verificar status dos serviços
 docker-compose ps
