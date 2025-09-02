@@ -1,19 +1,22 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LancamentoFormComponent } from './components/lancamento-form/lancamento-form.component';
+import { ConsolidacaoComponent } from './components/consolidacao/consolidacao.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, 
     LancamentoFormComponent,
+    ConsolidacaoComponent,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTabsModule
   ],
   template: `
     <mat-toolbar color="primary" class="app-toolbar">
@@ -26,7 +29,19 @@ import { MatButtonModule } from '@angular/material/button';
     </mat-toolbar>
 
     <div class="app-container">
-      <app-lancamento-form></app-lancamento-form>
+      <mat-tab-group class="tab-group" animationDuration="300ms">
+        <mat-tab label="Lançamentos" icon="receipt">
+          <div class="tab-content">
+            <app-lancamento-form></app-lancamento-form>
+          </div>
+        </mat-tab>
+        
+        <mat-tab label="Consolidação" icon="analytics">
+          <div class="tab-content">
+            <app-consolidacao></app-consolidacao>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   `,
   styles: [`
@@ -59,8 +74,43 @@ import { MatButtonModule } from '@angular/material/button';
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }
 
+    .tab-group {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .tab-content {
+      padding: 24px;
+      min-height: 500px;
+    }
+
+    ::ng-deep .mat-mdc-tab-group {
+      .mat-mdc-tab-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      .mat-mdc-tab-labels {
+        justify-content: center;
+      }
+      
+      .mat-mdc-tab .mdc-tab__text-label {
+        font-weight: 500;
+      }
+      
+      .mat-mdc-tab-body-wrapper {
+        background: white;
+      }
+    }
+
     @media (max-width: 768px) {
       .app-container {
+        padding: 16px;
+      }
+      
+      .tab-content {
         padding: 16px;
       }
     }

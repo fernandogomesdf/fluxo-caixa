@@ -22,5 +22,5 @@ RUN ./mvnw clean package -DskipTests
 # Expose port
 EXPOSE 8082
 
-# Run the application
-CMD ["java", "-jar", "target/consolidacao-service-0.0.1-SNAPSHOT.jar"]
+# Run the application with JVM debug and keep alive options
+CMD ["java", "-jar", "-Djava.awt.headless=true", "-Dspring.main.keep-alive=true", "target/consolidacao-service-0.0.1-SNAPSHOT.jar"]

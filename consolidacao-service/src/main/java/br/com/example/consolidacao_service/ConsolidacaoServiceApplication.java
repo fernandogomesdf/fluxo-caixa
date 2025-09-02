@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-// import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
 @EnableJpaRepositories
 @RestController
-// @EnableKafka - Desabilitado temporariamente
+@EnableKafka
 public class ConsolidacaoServiceApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(ConsolidacaoServiceApplication.class);

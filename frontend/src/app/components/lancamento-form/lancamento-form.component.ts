@@ -14,6 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LancamentoService } from '../../services/lancamento.service';
 import { Lancamento, LancamentoDTO, SimulacaoLancamentosDTO, TipoLancamento } from '../../models/lancamento.model';
+import { ConsolidacaoComponent } from '../consolidacao/consolidacao.component';
 
 @Component({
   selector: 'app-lancamento-form',
@@ -31,7 +32,8 @@ import { Lancamento, LancamentoDTO, SimulacaoLancamentosDTO, TipoLancamento } fr
     MatTabsModule,
     MatTableModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ConsolidacaoComponent
   ],
   template: `
     <div class="container">
@@ -219,7 +221,7 @@ import { Lancamento, LancamentoDTO, SimulacaoLancamentosDTO, TipoLancamento } fr
               
               <mat-card-content>
                 <div class="table-actions">
-                  <button mat-stroked-button (click)="carregarLancamentos()">
+                  <button mat-stroked-button color="primary" (click)="carregarLancamentos()">
                     <mat-icon>refresh</mat-icon>
                     Atualizar
                   </button>
@@ -272,6 +274,13 @@ import { Lancamento, LancamentoDTO, SimulacaoLancamentosDTO, TipoLancamento } fr
                 </ng-template>
               </mat-card-content>
             </mat-card>
+          </div>
+        </mat-tab>
+
+        <!-- Aba de Consolidação -->
+        <mat-tab label="Consolidação">
+          <div class="tab-content">
+            <app-consolidacao></app-consolidacao>
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -366,6 +375,9 @@ import { Lancamento, LancamentoDTO, SimulacaoLancamentosDTO, TipoLancamento } fr
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      min-width: 140px;
+      height: 48px;
+      font-size: 16px;
     }
 
     .lancamentos-table {
